@@ -72,6 +72,7 @@ class AclConfig extends SprykerAclConfig
             'dummy-merchant-portal-gui',
             'price-product-merchant-relationship-merchant-portal-gui',
             'product-offer-service-point-merchant-portal-gui',
+            'bfx-reports-merchant-portal-gui',
         ];
 
         foreach ($bundleNames as $bundleName) {

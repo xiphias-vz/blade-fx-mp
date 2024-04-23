@@ -1,0 +1,18 @@
+{% extends '@ZedUi/Layout/merchant-layout-main.twig' %}
+{% import _self as view %}
+
+{% block headTitle %}
+    {{ 'Blade Fx -> change this' }}
+{% endblock %}
+
+{% block content %}
+    <web-mp-bfx-reports>
+        Tu ide content (iFrame)
+    </web-mp-bfx-reports>
+
+{% endblock %}
+
+{% block footerJs %}
+    {{ view.importJsBundle('bfx-reports-merchant-portal-gui', importConfig) }}
+    {{ parent() }}
+{% endblock %}
