@@ -638,4 +638,12 @@
         <controller>products</controller>
         <action>index</action>
     </product-merchant-portal-gui>
+    <bfx-reports-merchant-portal-gui>
+        <label>BladeFx Reports</label>
+        <title>BladeFx Reports</title>
+        <icon>offers</icon>
+        <bundle>bfx-reports-merchant-portal-gui</bundle>
+        <controller>bfx-reports</controller>
+        <action>index</action>
+    </bfx-reports-merchant-portal-gui>
 </config>
