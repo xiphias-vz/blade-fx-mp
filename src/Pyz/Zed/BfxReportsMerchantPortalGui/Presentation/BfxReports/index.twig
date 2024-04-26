@@ -2,13 +2,18 @@
 {% import _self as view %}
 
 {% block headTitle %}
-    {{ 'Blade Fx -> change this' }}
+    {{ 'Blade Fx' | trans }}
 {% endblock %}
 
 {% block content %}
-    <web-mp-bfx-reports>
-        Tu ide content (iFrame)
+
+    <web-mp-bfx-reports
+        cloak
+        table-id="web-mp-bfx-reports"
+        table-config='{{ guiTableConfiguration(bfxReportsTableConfiguration) }}'>
+        <h1 title>{{ 'Reports' | trans }}</h1>
     </web-mp-bfx-reports>
+
 
 {% endblock %}
 

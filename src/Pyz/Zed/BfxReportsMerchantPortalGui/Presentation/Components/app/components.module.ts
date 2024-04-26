@@ -5,8 +5,8 @@ import { WebComponentsModule } from '@spryker/web-components';
 import { CardModule, CardComponent } from '@spryker/card';
 import { DateRangePickerModule, DateRangePickerComponent } from '@spryker/date-picker';
 
-import { BfxReportsComponent } from "./bfxReports/bfxReports.component";
-import { BfxReportsModule } from "./bfxReports/bfxReports.module";
+import { BfxReportsComponent } from './bfx-reports/bfx-reports.component';
+import { BfxReportsModule } from './bfx-reports/bfx-reports.module';
 
 @NgModule({
     imports: [
