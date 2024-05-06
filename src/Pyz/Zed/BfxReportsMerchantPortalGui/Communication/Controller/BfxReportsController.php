@@ -50,7 +50,7 @@ class BfxReportsController extends AbstractController
      *
      * @return JsonResponse
      */
-    public function reportIframeAction(Request $request): JsonResponse
+    public function reportIframeAction(Request $request): Response
     {
         $reportId = (int)$request->get('repId');
         $reportParamFormTransfer = $this
@@ -58,20 +58,20 @@ class BfxReportsController extends AbstractController
             ->getReportsFacade()
             ->getReportParamForm($reportId);
 
-        $responseData = [
-            'form' =>
-                $this->renderView('@BfxReportsMerchantPortalGui/Partials/report-iframe.twig',
-                    [
-                        'url' => $reportParamFormTransfer->getIframeUrl(),
-                    ]
-                )->getContent(),
-        ];
+//        $responseData = [
+//            'form' =>
+//                $this->renderView('@BfxReportsMerchantPortalGui/Partials/report-iframe.twig',
+//                    [
+//                        'url' => $reportParamFormTransfer->getIframeUrl(),
+//                    ]
+//                )->getContent(),
+//        ];
+//
+//        return new JsonResponse($responseData);
 
-        return new JsonResponse($responseData);
-
-//        return $this->renderView('@BfxReportsMerchantPortalGui/Partials/iframe.twig',[
-//            'url' => $reportParamFormTransfer->getIframeUrl(),
-//        ]);
+        return $this->renderView('@BfxReportsMerchantPortalGui/Partials/report-iframe.twig',[
+            'url' => $reportParamFormTransfer->getIframeUrl(),
+        ]);
 
 //        return $this->redirectResponse($reportParamFormTransfer->getIframeUrl());
 

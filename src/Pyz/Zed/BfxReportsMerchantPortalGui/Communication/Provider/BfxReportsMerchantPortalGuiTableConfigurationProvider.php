@@ -1,16 +1,20 @@
 <?php
 
-namespace Xiphias\Zed\Reports\Communication\Provider;
+declare(strict_types=1);
+
+namespace Pyz\Zed\BfxReportsMerchantPortalGui\Communication\Provider;
 
 use Generated\Shared\Transfer\BladeFxReportTransfer;
 use Generated\Shared\Transfer\GuiTableConfigurationTransfer;
 use Spryker\Shared\GuiTable\Configuration\Builder\GuiTableConfigurationBuilderInterface;
 use Spryker\Shared\GuiTable\GuiTableFactoryInterface;
+use Spryker\Zed\MerchantUser\Business\MerchantUserFacadeInterface;
 use Spryker\Zed\ProductOfferMerchantPortalGui\Dependency\Facade\ProductOfferMerchantPortalGuiToMerchantUserFacadeInterface;
+use Xiphias\Zed\Reports\Business\ReportsFacade;
 use Xiphias\Zed\Reports\Business\ReportsFacadeInterface;
 use Xiphias\Zed\Reports\ReportsConfig;
 
-class ReportsGuiTableConfigurationProvider
+class BfxReportsMerchantPortalGuiTableConfigurationProvider
 {
     public const COL_KEY_SKU = 'sku';
     public const COL_KEY_IMAGE = 'image';
@@ -24,29 +28,25 @@ class ReportsGuiTableConfigurationProvider
      * @var \Spryker\Shared\GuiTable\GuiTableFactoryInterface
      */
     protected $guiTableFactory;
-    private ReportsFacadeInterface $reportsFacade;
-    private ReportsConfig $config;
-    private ProductOfferMerchantPortalGuiToMerchantUserFacadeInterface $merchantUserFacade;
+    private MerchantUserFacadeInterface $merchantUserFacade;
 
     /**
-     * @param \Spryker\Shared\GuiTable\GuiTableFactoryInterface $guiTableFactory
+     * @param GuiTableFactoryInterface $guiTableFactory
+     * @param MerchantUserFacadeInterface $merchantUserFacade
      */
     public function __construct(
         GuiTableFactoryInterface $guiTableFactory,
-        ProductOfferMerchantPortalGuiToMerchantUserFacadeInterface $merchantUserFacade,
-        ReportsFacadeInterface $reportsFacade,
-        ReportsConfig $config,
+        MerchantUserFacadeInterface $merchantUserFacade,
     ) {
         $this->guiTableFactory = $guiTableFactory;
         $this->merchantUserFacade = $merchantUserFacade;
-        $this->reportsFacade = $reportsFacade;
-        $this->config = $config;
     }
     /**
      * @return \Generated\Shared\Transfer\GuiTableConfigurationTransfer
      */
     public function getConfiguration(): GuiTableConfigurationTransfer
     {
+
         $idMerchant = $this->merchantUserFacade
             ->getCurrentMerchantUser()
             ->getIdMerchantOrFail();
@@ -54,11 +54,11 @@ class ReportsGuiTableConfigurationProvider
         $guiTableConfigurationBuilder = $this->guiTableFactory->createConfigurationBuilder();
 
         $guiTableConfigurationBuilder = $this->addColumns($guiTableConfigurationBuilder);
-        $guiTableConfigurationBuilder = $this->addFilters($guiTableConfigurationBuilder);
+//        $guiTableConfigurationBuilder = $this->addFilters($guiTableConfigurationBuilder);
         $guiTableConfigurationBuilder = $this->addRowActions($guiTableConfigurationBuilder, $idMerchant);
 
         $guiTableConfigurationBuilder
-            ->setDataSourceUrl('/bfx-report-merchant-portal-gui/(?)/table-data')
+            ->setDataSourceUrl('/bfx-reports-merchant-portal-gui/bfx-reports/table-data')
             ->setSearchPlaceholder('Search by report name')
             ->setDefaultPageSize(25);
 
@@ -73,14 +73,15 @@ class ReportsGuiTableConfigurationProvider
     {
         $guiTableConfigurationBuilder
             ->addColumnChip(BladeFxReportTransfer::IS_FAVORITE, 'Favorite', true, false, 'gray', [
-                'Favorite' => 'green',
+                'true' => 'green',
             ])
-            ->addColumnText(BladeFxReportTransfer::REP_ID, 'Report ID', true, false)
-            ->addColumnText(BladeFxReportTransfer::REP_NAME, 'Report name', true, false)
-            ->addColumnText(BladeFxReportTransfer::REP_DESC, 'Description', false, true)
-            ->addColumnText(BladeFxReportTransfer::CAT_NAME, 'Category', true, true)
-            ->addColumnChip(BladeFxReportTransfer::IS_ACTIVE, 'Active', true, false, 'gray')
-            ->addColumnChip(BladeFxReportTransfer::IS_DRILLDOWN, 'Drilldown', true, false, 'gray');
+            ->addColumnText(BladeFxReportTransfer::REP_ID, 'Report ID', false, false)
+            ->addColumnText(BladeFxReportTransfer::REP_NAME, 'Report name', false, false)
+            ->addColumnText(BladeFxReportTransfer::REP_DESC, 'Description', false, false)
+            ->addColumnText(BladeFxReportTransfer::CAT_NAME, 'Category', false, false)
+            ->addColumnChip(BladeFxReportTransfer::IS_ACTIVE, 'Active', false, false, 'gray')
+            ->addColumnChip(BladeFxReportTransfer::IS_DRILLDOWN, 'Drilldown', false, false, 'gray');
+
 
         return $guiTableConfigurationBuilder;
     }
@@ -110,20 +111,39 @@ class ReportsGuiTableConfigurationProvider
 
     /**
      * @param \Spryker\Shared\GuiTable\Configuration\Builder\GuiTableConfigurationBuilderInterface $guiTableConfigurationBuilder
+     * @param int $idMerchant
      *
      * @return \Spryker\Shared\GuiTable\Configuration\Builder\GuiTableConfigurationBuilderInterface
      */
     protected function addRowActions(GuiTableConfigurationBuilderInterface $guiTableConfigurationBuilder, int $idMerchant): GuiTableConfigurationBuilderInterface
     {
-        $guiTableConfigurationBuilder->addRowActionDrawerAjaxForm(
-            'show-iframe',
-            'Edit',
-            sprintf(
-                '/bfx-reports-merchant-portal-gui/report-iframe?repId=${row.%s}&merchId=${row.%s}',
-                BladeFxReportTransfer::REP_ID,
-                $idMerchant
-            )
-        )->setRowClickAction('show-iframe');
+//        $f = (new ReportsFacade())->getReportParamForm((int)BladeFxReportTransfer::REP_ID);
+
+
+
+        $guiTableConfigurationBuilder->addRowActionDrawerUrlHtmlRenderer(
+             'report-iframe',
+                'Edit',
+                sprintf(
+                    'bfx-reports/report-iframe?repId=${row.%s}',
+
+//                'bfx-reports/report-iframe?repId=${row.%s}&merchId=${row.%s}',
+                    BladeFxReportTransfer::REP_ID,
+//                $idMerchant,
+                )
+            )->setRowClickAction('report-iframe');
+
+//        $guiTableConfigurationBuilder->addRowActionDrawerAjaxForm(
+//            'show-iframe',
+//            'Edit',
+//            sprintf(
+//                'bfx-reports/report-iframe?repId=${row.%s}',
+//
+////                'bfx-reports/report-iframe?repId=${row.%s}&merchId=${row.%s}',
+//                BladeFxReportTransfer::REP_ID,
+////                $idMerchant,
+//            )
+//        )->setRowClickAction('show-iframe');
 
         return $guiTableConfigurationBuilder;
     }

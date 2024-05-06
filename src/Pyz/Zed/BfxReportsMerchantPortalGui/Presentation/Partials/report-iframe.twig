@@ -5,20 +5,19 @@
     {{ 'Blade Fx' | trans }}
 {% endblock %}
 
-{% block content %}
+{% block body %}
 
-    <web-mp-bfx-reports
-        cloak
-        table-id="web-mp-bfx-reports"
-        table-config='{{ guiTableConfiguration(bfxReportsTableConfiguration) }}'
+    <web-mp-bfx-reports-iframe
+        url={{ url }}
     >
-        <h1 title>{{ 'Reports' | trans }}</h1>
-    </web-mp-bfx-reports>
 
 
+    </web-mp-bfx-reports-iframe>
 {% endblock %}
+
 
 {% block footerJs %}
     {{ view.importJsBundle('bfx-reports-merchant-portal-gui', importConfig) }}
     {{ parent() }}
 {% endblock %}
+
