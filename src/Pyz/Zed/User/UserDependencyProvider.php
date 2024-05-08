@@ -7,6 +7,7 @@
 
 namespace Pyz\Zed\User;
 
+use PyzXiphias\Zed\Reports\Business\BladeFx\ReportsFacade;
 use Spryker\Zed\Acl\Communication\Plugin\GroupPlugin;
 use Spryker\Zed\AgentGui\Communication\Plugin\UserAgentFormExpanderPlugin;
 use Spryker\Zed\AgentGui\Communication\Plugin\UserAgentTableConfigExpanderPlugin;
@@ -23,6 +24,16 @@ use Spryker\Zed\WarehouseUserGui\Communication\Plugin\User\WarehouseUserAssignme
 
 class UserDependencyProvider extends SprykerUserDependencyProvider
 {
+    protected const BLADE_FX_FACADE = 'BLADE_FX_FACADE';
+
+    public function provideBusinessLayerDependencies(Container $container)
+    {
+        $container = parent::provideBusinessLayerDependencies($container);
+        $container = $this->addBladeFxFacade($container);
+
+        return $container;
+    }
+
     /**
      * @param \Spryker\Zed\Kernel\Container $container
      *
@@ -108,5 +119,19 @@ class UserDependencyProvider extends SprykerUserDependencyProvider
         return [
             new UnassignPickingListUserPostSavePlugin(),
         ];
+    }
+
+    /**
+     * @param $container
+     *
+     * @return Container
+     */
+    protected function addBladeFxFacade($container): Container
+    {
+        $container->set(static::BLADE_FX_FACADE, function (Container $container) {
+            $container->getLocator()->reports()->facade();
+        });
+
+        return $container;
     }
 }
