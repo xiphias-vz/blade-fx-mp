@@ -17,6 +17,7 @@ use Generated\Shared\Transfer\BladeFxGetReportsListResponseTransfer;
 use Generated\Shared\Transfer\BladeFxParameterTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 use Symfony\Component\HttpFoundation\Request;
+use Xiphias\Zed\Reports\Business\BladeFx\UserHandler\UserHandlerInterface;
 
 /**
  * @method \Xiphias\Zed\Reports\Business\ReportsBusinessFactory getFactory()
@@ -115,5 +116,11 @@ class ReportsFacade extends AbstractFacade implements ReportsFacadeInterface
     public function getReportParamForm(int $reportId): BladeFxGetReportParamFormResponseTransfer
     {
         return $this->getFactory()->createBladeFxReportsReader()->getReportParamForm($reportId);
+    }
+
+    public function createUserOnBladeFx(array $groupRoles)
+    {
+        // TODO: Implement createUserOnBladeFx() method.
+        return $this->getFactory()->createUserHandler()->createUserOnBladeFx($groupRoles);
     }
 }

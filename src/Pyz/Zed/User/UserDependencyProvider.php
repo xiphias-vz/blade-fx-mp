@@ -23,6 +23,16 @@ use Spryker\Zed\WarehouseUserGui\Communication\Plugin\User\WarehouseUserAssignme
 
 class UserDependencyProvider extends SprykerUserDependencyProvider
 {
+    public const BLADE_FX_FACADE = 'BLADE_FX_FACADE';
+
+    public function provideCommunicationLayerDependencies(Container $container)
+    {
+        $container = parent::provideCommunicationLayerDependencies($container);
+        $container = $this->addBladeFxFacade($container);
+
+        return $container;
+    }
+
     /**
      * @param \Spryker\Zed\Kernel\Container $container
      *
@@ -108,5 +118,19 @@ class UserDependencyProvider extends SprykerUserDependencyProvider
         return [
             new UnassignPickingListUserPostSavePlugin(),
         ];
+    }
+
+    /**
+     * @param $container
+     *
+     * @return Container
+     */
+    protected function addBladeFxFacade($container): Container
+    {
+        $container->set(static::BLADE_FX_FACADE, function (Container $container) {
+            return $container->getLocator()->reports()->facade();
+        });
+
+        return $container;
     }
 }

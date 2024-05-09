@@ -31,11 +31,14 @@ use Xiphias\Zed\Reports\Business\BladeFx\RequestProcessor\RequestProcessor;
 use Xiphias\Zed\Reports\Business\BladeFx\RequestProcessor\RequestProcessorInterface;
 use Xiphias\Zed\Reports\Business\BladeFx\TokenResolver\TokenResolver;
 use Xiphias\Zed\Reports\Business\BladeFx\TokenResolver\TokenResolverInterface;
+use Xiphias\Zed\Reports\Business\BladeFx\UserHandler\UserHandlerInterface;
+use Xiphias\Zed\Reports\Business\BladeFx\UserHandler\UserHandler;
 use Xiphias\Zed\Reports\ReportsDependencyProvider;
 
 /**
  * @method \Xiphias\Zed\Reports\ReportsConfig getConfig()
  * @method \Xiphias\Zed\Reports\Business\ReportsFacade getFacade();
+ * @method \Xiphias\Zed\Reports\Persistence\ReportsRepositoryInterface getRepository();
  */
 class ReportsBusinessFactory extends AbstractBusinessFactory
 {
@@ -182,6 +185,13 @@ class ReportsBusinessFactory extends AbstractBusinessFactory
             $this->getBladeFxClient(),
             $this->createTokenResolver(),
             $this->getConfig(),
+        );
+    }
+
+    public function createUserHandler(): UserHandlerInterface
+    {
+        return new UserHandler(
+            $this->getRepository()
         );
     }
 }

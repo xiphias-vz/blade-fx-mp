@@ -80,4 +80,6 @@ interface ReportsFacadeInterface
     public function getReportPreviewURL(
         BladeFxParameterTransfer $parameterTransfer,
     ): BladeFxGetReportPreviewResponseTransfer;
+
+    public function createUserOnBladeFx(array $groupRoles);
 }
