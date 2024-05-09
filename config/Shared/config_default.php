@@ -215,7 +215,6 @@ $config[KernelConstants::DOMAIN_WHITELIST] = array_merge($trustedHosts, [
     $sprykerFrontendHost,
     'threedssvc.pay1.de', // trusted Payone domain
     'www.sofort.com', // trusted Payone domain
-    'alabama.blade-fx.com',
 ]);
 $config[KernelConstants::DOMAIN_WHITELIST][] = '*.bazaarvoice.com';
 

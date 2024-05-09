@@ -51,7 +51,6 @@ class BfxReportsController extends AbstractController
             $this->getFactory()->createBfxReportsMerchantPortalGuiTableConfigurationProvider()->getConfiguration(),
         );
     }
-
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
@@ -61,7 +60,7 @@ class BfxReportsController extends AbstractController
     {
         return $this->getFactory()->getGuiTableHttpDataRequestExecutor()->execute(
             $request,
-            $this->getFactory()->createBfxReportsMerchantPortalGuiTableDataProvider([ReportsConstants::ATTRIBUTE => '']),
+            $this->getFactory()->createBfxReportsMerchantPortalGuiTableDataProvider([ReportsConstants::ATTRIBUTE => 'fdsfd']),
             $this->getFactory()->createBfxReportsMerchantPortalGuiTableConfigurationProvider()->getConfiguration(),
         );
     }
@@ -97,9 +96,6 @@ class BfxReportsController extends AbstractController
     {
         $reportId = $this->castId($request->query->get('repId'));
         $format = $request->query->get('format');
-
-//        $paramName = $request->query->get(ReportsConstants::PARAMETER_NAME);
-//        $paramValue = $request->query->get(ReportsConstants::PARAMETER_VALUE);
 
         $paramTransfer = (new BladeFxParameterTransfer())->setReportId($reportId)->setParamName('@order_id')->setParamValue('1')->setSqlDbType('');
         $responseTransfer = $this->getFactory()->getReportsFacade()->getReportByIdInWantedFormat($reportId, $format, $paramTransfer);
