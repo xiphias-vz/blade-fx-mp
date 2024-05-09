@@ -1,0 +1,14 @@
+<div class="modal preview-modal" id="preview-modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" id="preview-modal-header">
+                <h5>{{ 'Report preview' | trans }}</h5>
+                <div class="flex-helper"></div>
+                <i class="fa fa-times" data-dismiss="modal"></i>
+            </div>
+            <iframe class="modal-body" title="review-preview">
+            </iframe>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="{{ assetsPath('css/reports.css') }}">

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<database xmlns="spryker:schema-01" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="zed" xsi:schemaLocation="spryker:schema-01 https://static.spryker.com/schema-01.xsd" namespace="Orm\Zed\Acl\Persistence" package="src.Orm.Zed.Acl.Persistence">
+
+    <table name="pyz_bfx_role">
+        <column name="id_pyz_bfx_role" required="true" type="INTEGER" autoIncrement="true" primaryKey="true" />
+        <column name="fk_acl_role" required="true" type="INTEGER" />
+        <column name="is_bfx_role" required="false" default="false" type="BOOLEAN" phpType="boolean"/>
+        <column name="bfx_role_key" required="false" type="VARCHAR" />
+
+        <foreign-key name="pyz_bfx_role-fk_acl_role" foreignTable="spy_acl_role" onDelete="cascade">
+            <reference foreign="id_acl_role" local="fk_acl_role"/>
+        </foreign-key>
+    </table>
+</database>

@@ -1,0 +1,27 @@
+{% extends '@Gui/Layout/layout.twig' %}
+
+{% set title = 'BladeFx Reports' | trans %}
+
+{% block head_css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ assetsPath('css/reports.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="col-md-2">
+            {% include '@Reports/_partials/category-sidebar.twig' with { 'categoryTree': categoryTree, 'currentCategoryId': currentCategoryId } %}
+        </div>
+        <div class="col-md-10">
+            <div class="content">
+                {% block main_content %}
+                    {{ reportsTable | raw }}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+    {% include '@Reports/_partials/modal.twig' %}
+
+    <script src="{{ assetsPath('js/reports.js') }}"></script>
+{% endblock %}

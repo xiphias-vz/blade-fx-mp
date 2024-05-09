@@ -1,0 +1,223 @@
+<?xml version="1.0"?>
+<transfers xmlns="spryker:transfer-01"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="spryker:transfer-01 http://static.spryker.com/transfer-01.xsd">
+
+    <transfer name="BladeFxSetFavoriteReportRequest">
+        <property name="repId" type="int" />
+        <property name="userId" type="string" />
+        <property name="token" type="BladeFxToken" />
+    </transfer>
+
+    <transfer name="BladeFxSetFavoriteReportResponse">
+        <property name="statusCode" type="int" />
+        <property name="success" type="bool" />
+        <property name="rMessage" type="string" />
+        <property name="causer" type="string" />
+        <property name="id" type="int" />
+        <property name="areUsure" type="bool" />
+        <property name="optionValue" type="string" />
+        <property name="licenceIssue" type="bool" />
+    </transfer>
+
+    <transfer name="ReportsUpdaterRequest">
+        <property name="repId" type="int" />
+        <property name="isFavorite" type="bool" />
+    </transfer>
+
+    <transfer name="CategoryReaderRequest">
+        <property name="activeCategory" type="int" />
+    </transfer>
+
+    <transfer name="ReportsReaderRequest">
+        <property name="activeCategory" type="int" />
+    </transfer>
+
+    <!--       BladeFx Authentication transfers -->
+    <transfer name="BladeFxAuthenticationRequest" strict="true">
+        <property name="username" type="string" />
+        <property name="password" type="string" />
+        <property name="licenceExp" type="bool" />
+    </transfer>
+
+    <transfer name="BladeFxAuthenticationResponse" strict="true">
+        <property name="token" type="string" />
+        <property name="username" type="string" />
+        <property name="fullname" type="string" />
+        <property name="email" type="string" />
+        <property name="avatar" type="string" />
+        <property name="idUser" type="int" />
+        <property name="idCompany" type="int" />
+        <property name="idLanguage" type="int" />
+        <property name="languageDescription" type="string" />
+        <property name="licenceExp" type="bool" />
+    </transfer>
+
+    <transfer name="BladeFxToken">
+        <property name="token" type="string"/>
+    </transfer>
+
+    <!--       BladeFx get categories list transfers -->
+    <transfer name="BladeFxGetCategoriesListRequest" strict="true">
+        <property name="catId" type="int" />
+        <property name="token" type="BladeFxToken" />
+        <property name="returnType" type="string" />
+    </transfer>
+
+    <transfer name="BladeFxCategoriesListResponse" strict="true">
+        <property name="statusCode" type="int" />
+        <property name="categoriesList" type="BladeFxCategory[]" singular="bladeFxCategory"/>
+    </transfer>
+
+    <transfer name="BladeFxCategory" strict="true">
+        <property name="catId" type="int"/>
+        <property name="companyId" type="int" />
+        <property name="catParentId" type="int" />
+        <property name="catName" type="string" />
+        <property name="catDescription" type="string" />
+        <property name="catSort" type="int" />
+        <property name="catActive" type="bool" />
+        <property name="dCreated" type="string" />
+        <property name="dChanged" type="string" />
+        <property name="reportCount" type="int" />
+        <property name="isActiveTree" type="bool" />
+    </transfer>
+
+    <!--       BladeFx get reports list transfers -->
+    <transfer name="BladeFxGetReportsListRequest" strict="true">
+        <property name="catId" type="int" />
+        <property name="search" type="string" />
+        <property name="token" type="BladeFxToken" />
+        <property name="attribute" type="string" />
+        <property name="returnType" type="string" />
+    </transfer>
+
+    <transfer name="BladeFxGetReportsListResponse" strict="true">
+        <property name="statusCode" type="int" />
+        <property name="reportsList" type="BladeFxReport[]" singular="bladeFxReport" />
+    </transfer>
+
+    <transfer name="BladeFxGetReportParameterListRequest" strict="true">
+        <property name="reportId" type="int" />
+        <property name="token" type="BladeFxToken" />
+        <property name="hostAddress" type="string"/>
+        <property name="returnType" type="string" />
+    </transfer>
+
+    <transfer name="BladeFxGetReportParameterListResponse" strict="true">
+        <property name="statusCode" type="int"/>
+        <property name="parameterList" type="BladeFxParameter[]" singular="bladeFxParameter"/>
+    </transfer>
+
+    <transfer name="BladeFxParameterList" strict="true">
+        <property name="parameterList" type="BladeFxParameter[]" singular="bladeFxParameter"/>
+    </transfer>
+
+    <transfer name="BladeFxFullParameter" strict="true">
+        <property name="repId" type="int"/>
+        <property name="paramId" type="int"/>
+        <property name="paramName" type="string"/>
+        <property name="paramCaption" type="string"/>
+        <property name="paramDescription" type="string"/>
+        <property name="paramValue" type="string" />
+        <property name="isHistoryOff" type="bool"/>
+        <property name="isMandatory" type="bool"/>
+        <property name="connectionId" type="int"/>
+        <property name="maxItemsCount" type="int"/>
+        <property name="paramOdbcType" type="int" />
+        <property name="sort" type="int"/>
+        <property name="controlId" type="int"/>
+        <property name="isHidden" type="bool"/>
+        <property name="formatExp" type="string"/>
+        <property name="isCommaIntList" type="bool"/>
+        <property name="isCommaStrList" type="bool"/>
+        <property name="odbcTypeName" type="string"/>
+        <property name="linkedParams" type="array"/>
+    </transfer>
+
+    <transfer name="BladeFxParameter" strict="true">
+        <property name="reportId" type="int" />
+        <property name="paramName" type="string"/>
+        <property name="paramValue" type="string" />
+        <property name="sqlDbType" type="string" />
+    </transfer>
+
+    <transfer name="BladeFxGetReportPreviewRequest" strict="true">
+        <property name="token" type="BladeFxToken" />
+        <property name="returnType" type="string" />
+        <property name="repId" type="int"/>
+        <property name="layoutId" type="int"/>
+        <property name="imageFormat" type="string"/>
+        <property name="rootUrl" type="string"/>
+        <property name="params" type="BladeFxParameter"/>
+    </transfer>
+
+    <transfer name="BladeFxGetReportPreviewResponse" strict="true">
+        <property name="statusCode" type="int"/>
+        <property name="url" type="string"/>
+    </transfer>
+
+    <transfer name="BladeFxGetReportByFormatRequest" strict="true">
+        <property name="token" type="BladeFxToken" />
+        <property name="returnType" type="string" />
+        <property name="repId" type="int"/>
+        <property name="layoutId" type="int"/>
+        <property name="imageFormat" type="string"/>
+        <property name="fileFormat" type="string" />
+        <property name="params" type="BladeFxParameter"/>
+    </transfer>
+
+    <transfer name="BladeFxGetReportByFormatResponse" strict="true">
+        <property name="statusCode" type="int"/>
+        <property name="report" type="string"/>
+    </transfer>
+
+
+    <transfer name="BladeFxReport" strict="true">
+        <property name="repId" type="int"/>
+        <property name="repName" type="string" />
+        <property name="repHashCode" type="string" />
+        <property name="repDesc" type="string" />
+        <property name="catName" type="string" />
+        <property name="isActive" type="bool" />
+        <property name="isDrilldown" type="bool" />
+        <property name="isWebservice" type="bool" />
+        <property name="isErrorReport" type="bool" />
+        <property name="isDef" type="bool" />
+        <property name="isMetro" type="bool" />
+        <property name="logExecution" type="bool" />
+        <property name="logHistory" type="bool" />
+        <property name="isFavorite" type="bool" />
+        <property name="uCreated" type="string" />
+        <property name="dCreated" type="string" />
+        <property name="uChanged" type="string" />
+        <property name="dChanged" type="string" />
+        <property name="mobileLayout" type="bool" />
+        <property name="attribute" type="string" />
+    </transfer>
+
+    <!--       BladeFx api shared transfers -->
+    <transfer name="BladeFxApiResponseConversionResult" strict="true">
+        <property name="bladeFxAuthenticationResponse" type="BladeFxAuthenticationResponse"/>
+        <property name="bladeFxCategoriesListResponse" type="BladeFxCategoriesListResponse"/>
+        <property name="bladeFxGetReportsListResponse" type="BladeFxGetReportsListResponse" />
+        <property name="bladeFxSetFavoriteReportResponse" type="BladeFxSetFavoriteReportResponse" />
+        <property name="bladeFxAuthenticationResponse" type="BladeFxAuthenticationResponse"/>
+        <property name="bladeFxCategoriesListResponse" type="BladeFxCategoriesListResponse"/>
+        <property name="bladeFxGetReportsListResponse" type="BladeFxGetReportsListResponse" />
+        <property name="bladeFxGetReportParameterListResponse" type="BladeFxGetReportParameterListResponse"/>
+        <property name="bladeFxGetReportPreviewResponse" type="BladeFxGetReportPreviewResponse" />
+        <property name="bladeFxGetReportByFormatResponse" type="BladeFxGetReportByFormatResponse"/>
+        <property name="bladeFxGetReportParamFormResponse" type="BladeFxGetReportParamFormResponse"/>
+    </transfer>
+
+    <transfer name="BladeFxGetReportParamFormRequest" >
+        <property name="token" type="BladeFxToken" />
+        <property name="reportId" type="int" />
+        <property name="rootUrl" type="string" />
+    </transfer>
+
+    <transfer name="BladeFxGetReportParamFormResponse" >
+        <property name="iframeUrl" type="string" />
+    </transfer>
+</transfers>
