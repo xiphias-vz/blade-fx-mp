@@ -18,46 +18,6 @@ use Spryker\Zed\MerchantUser\Business\MerchantUserFacadeInterface;
 class BfxReportsMerchantPortalGuiTableConfigurationProvider
 {
     /**
-     * @var string
-     */
-    public const COL_KEY_SKU = 'sku';
-
-    /**
-     * @var string
-     */
-    public const COL_KEY_IMAGE = 'image';
-
-    /**
-     * @var string
-     */
-    public const COL_KEY_NAME = 'name';
-
-    /**
-     * @var string
-     */
-    public const COL_KEY_SUPER_ATTRIBUTES = 'superAttributes';
-
-    /**
-     * @var string
-     */
-    public const COL_KEY_VARIANTS = 'variants';
-
-    /**
-     * @var string
-     */
-    public const COL_KEY_CATEGORIES = 'categories';
-
-    /**
-     * @var string
-     */
-    public const COL_KEY_STORES = 'stores';
-
-    /**
-     * @var string
-     */
-    public const COL_KEY_VISIBILITY = 'visibility';
-
-    /**
      * @var \Spryker\Shared\GuiTable\GuiTableFactoryInterface
      */
     protected $guiTableFactory;
@@ -110,29 +70,6 @@ class BfxReportsMerchantPortalGuiTableConfigurationProvider
             ->addColumnText(BladeFxReportTransfer::REP_NAME, 'Report name', false, false)
             ->addColumnText(BladeFxReportTransfer::REP_DESC, 'Description', false, false)
             ->addColumnText(BladeFxReportTransfer::CAT_NAME, 'Category', false, false);
-
-        return $guiTableConfigurationBuilder;
-    }
-
-    /**
-     * @param \Spryker\Shared\GuiTable\Configuration\Builder\GuiTableConfigurationBuilderInterface $guiTableConfigurationBuilder
-     *
-     * @return \Spryker\Shared\GuiTable\Configuration\Builder\GuiTableConfigurationBuilderInterface
-     */
-    protected function addFilters(GuiTableConfigurationBuilderInterface $guiTableConfigurationBuilder): GuiTableConfigurationBuilderInterface
-    {
-        $guiTableConfigurationBuilder->addFilterSelect(BladeFxReportTransfer::IS_FAVORITE, 'Favorite', false, [
-            '1' => 'Favorite',
-            '0' => 'Not favorite',
-        ]);
-        $guiTableConfigurationBuilder->addFilterSelect(BladeFxReportTransfer::IS_ACTIVE, 'Active', false, [
-            '1' => 'Active',
-            '0' => 'Not active',
-        ]);
-        $guiTableConfigurationBuilder->addFilterSelect(BladeFxReportTransfer::IS_DRILLDOWN, 'Drilldown', false, [
-            '1' => 'Drilldown',
-            '0' => 'Not drilldown',
-        ]);
 
         return $guiTableConfigurationBuilder;
     }

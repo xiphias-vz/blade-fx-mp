@@ -8,8 +8,6 @@
 namespace Pyz\Zed\SalesMerchantPortalGui\Communication;
 
 use Pyz\Zed\BfxReportsMerchantPortalGui\Communication\Provider\BfxReportsSalesOrderTabTableConfigurationProvider;
-use Spryker\Shared\GuiTable\GuiTableFactory;
-use Spryker\Zed\MerchantUser\Business\MerchantUserFacade;
 use Spryker\Zed\SalesMerchantPortalGui\Communication\SalesMerchantPortalGuiCommunicationFactory as SprykerSalesMerchantPortalGuiCommunicationFactory;
 
 /**
@@ -24,8 +22,7 @@ class SalesMerchantPortalGuiCommunicationFactory extends SprykerSalesMerchantPor
     public function getBladeFxReportsTableConfiguration(): BfxReportsSalesOrderTabTableConfigurationProvider
     {
         return new BfxReportsSalesOrderTabTableConfigurationProvider(
-            new GuiTableFactory(),
-            new MerchantUserFacade(),
+            $this->getGuiTableFactory(),
         );
     }
 }

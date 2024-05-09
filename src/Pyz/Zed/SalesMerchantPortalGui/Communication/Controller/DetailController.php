@@ -5,6 +5,8 @@
  * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Pyz\Zed\SalesMerchantPortalGui\Communication\Controller;
 
 use Generated\Shared\Transfer\MerchantOrderCriteriaTransfer;
@@ -52,7 +54,7 @@ class DetailController extends SprykerDetailController
                     ->createMerchantOrderItemGuiTableConfigurationProvider()
                     ->getConfiguration($merchantOrderTransfer),
                 'merchantOrderItemsIndexedByShipment' => $this->getMerchantOrderItemTransfersIndexedByIdShipment($merchantOrderTransfer),
-                'bfxReportsTableConfiguration' => $this->getFactory()->getBladeFxReportsTableConfiguration()->getConfiguration(),
+                'bfxReportsTableConfiguration' => $this->getFactory()->getBladeFxReportsTableConfiguration()->getConfiguration($merchantOrderTransfer),
             ])->getContent(),
         ];
 

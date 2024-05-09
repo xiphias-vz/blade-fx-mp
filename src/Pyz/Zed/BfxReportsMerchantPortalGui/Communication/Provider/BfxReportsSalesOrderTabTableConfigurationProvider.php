@@ -11,85 +11,43 @@ namespace Pyz\Zed\BfxReportsMerchantPortalGui\Communication\Provider;
 
 use Generated\Shared\Transfer\BladeFxReportTransfer;
 use Generated\Shared\Transfer\GuiTableConfigurationTransfer;
+use Generated\Shared\Transfer\MerchantOrderTransfer;
 use Spryker\Shared\GuiTable\Configuration\Builder\GuiTableConfigurationBuilderInterface;
 use Spryker\Shared\GuiTable\GuiTableFactoryInterface;
-use Spryker\Zed\MerchantUser\Business\MerchantUserFacadeInterface;
 
 class BfxReportsSalesOrderTabTableConfigurationProvider
 {
     /**
      * @var string
      */
-    public const COL_KEY_SKU = 'sku';
-
-    /**
-     * @var string
-     */
-    public const COL_KEY_IMAGE = 'image';
-
-    /**
-     * @var string
-     */
-    public const COL_KEY_NAME = 'name';
-
-    /**
-     * @var string
-     */
-    public const COL_KEY_SUPER_ATTRIBUTES = 'superAttributes';
-
-    /**
-     * @var string
-     */
-    public const COL_KEY_VARIANTS = 'variants';
-
-    /**
-     * @var string
-     */
-    public const COL_KEY_CATEGORIES = 'categories';
-
-    /**
-     * @var string
-     */
-    public const COL_KEY_STORES = 'stores';
-
-    /**
-     * @var string
-     */
-    public const COL_KEY_VISIBILITY = 'visibility';
+    public const PARAM_NAME_ORDER_ID = '@order_id';
 
     /**
      * @var \Spryker\Shared\GuiTable\GuiTableFactoryInterface
      */
     protected $guiTableFactory;
 
-    private MerchantUserFacadeInterface $merchantUserFacade;
-
     /**
      * @param \Spryker\Shared\GuiTable\GuiTableFactoryInterface $guiTableFactory
-     * @param \Spryker\Zed\MerchantUser\Business\MerchantUserFacadeInterface $merchantUserFacade
      */
-    public function __construct(
-        GuiTableFactoryInterface $guiTableFactory,
-        MerchantUserFacadeInterface $merchantUserFacade,
-    ) {
+    public function __construct(GuiTableFactoryInterface $guiTableFactory)
+    {
         $this->guiTableFactory = $guiTableFactory;
-        $this->merchantUserFacade = $merchantUserFacade;
     }
 
     /**
+     * @param \Generated\Shared\Transfer\MerchantOrderTransfer $merchantOrderTransfer
+     *
      * @return \Generated\Shared\Transfer\GuiTableConfigurationTransfer
      */
-    public function getConfiguration(): GuiTableConfigurationTransfer
+    public function getConfiguration(MerchantOrderTransfer $merchantOrderTransfer): GuiTableConfigurationTransfer
     {
-        $idMerchant = $this->merchantUserFacade
-            ->getCurrentMerchantUser()
-            ->getIdMerchantOrFail();
+        $idOrder = $merchantOrderTransfer->getIdOrder();
 
         $guiTableConfigurationBuilder = $this->guiTableFactory->createConfigurationBuilder();
 
         $guiTableConfigurationBuilder = $this->addColumns($guiTableConfigurationBuilder);
-//        $guiTableConfigurationBuilder = $this->addFilters($guiTableConfigurationBuilder);
-        $guiTableConfigurationBuilder = $this->addRowActions($guiTableConfigurationBuilder, $idMerchant);
+        $guiTableConfigurationBuilder = $this->addRowActions($guiTableConfigurationBuilder, $idOrder);
 
         $guiTableConfigurationBuilder
             ->setDataSourceUrl('/bfx-reports-merchant-portal-gui/bfx-reports/sales-reports-table-data')
@@ -117,45 +75,21 @@ class BfxReportsSalesOrderTabTableConfigurationProvider
 
     /**
      * @param \Spryker\Shared\GuiTable\Configuration\Builder\GuiTableConfigurationBuilderInterface $guiTableConfigurationBuilder
-     *
-     * @return \Spryker\Shared\GuiTable\Configuration\Builder\GuiTableConfigurationBuilderInterface
-     */
-    protected function addFilters(GuiTableConfigurationBuilderInterface $guiTableConfigurationBuilder): GuiTableConfigurationBuilderInterface
-    {
-        $guiTableConfigurationBuilder->addFilterSelect(BladeFxReportTransfer::IS_FAVORITE, 'Favorite', false, [
-            '1' => 'Favorite',
-            '0' => 'Not favorite',
-        ]);
-        $guiTableConfigurationBuilder->addFilterSelect(BladeFxReportTransfer::IS_ACTIVE, 'Active', false, [
-            '1' => 'Active',
-            '0' => 'Not active',
-        ]);
-        $guiTableConfigurationBuilder->addFilterSelect(BladeFxReportTransfer::IS_DRILLDOWN, 'Drilldown', false, [
-            '1' => 'Drilldown',
-            '0' => 'Not drilldown',
-        ]);
-
-        return $guiTableConfigurationBuilder;
-    }
-
-    /**
-     * @param \Spryker\Shared\GuiTable\Configuration\Builder\GuiTableConfigurationBuilderInterface $guiTableConfigurationBuilder
-     * @param int $idMerchant
+     * @param int $idOrder
      *
      * @return \Spryker\Shared\GuiTable\Configuration\Builder\GuiTableConfigurationBuilderInterface
      */
     protected function addRowActions(
         GuiTableConfigurationBuilderInterface $guiTableConfigurationBuilder,
-        int $idMerchant,
+        int $idOrder,
     ): GuiTableConfigurationBuilderInterface {
         $guiTableConfigurationBuilder->addRowActionHttp(
             'download-pdf',
             'Download as PDF',
             sprintf(
-                '/bfx-reports-merchant-portal-gui/bfx-reports/report-download-response-builder?repId=${row.%s}&format=pdf',
-                //                'bfx-reports/report-iframe?repId=${row.%s}&merchId=${row.%s}',
+                '/bfx-reports-merchant-portal-gui/bfx-reports/report-download-response-builder?repId=${row.%s}&format=pdf&paramName=' . static::PARAM_NAME_ORDER_ID . '&paramValue=%s',
                 BladeFxReportTransfer::REP_ID,
-                //                $idMerchant,
+                $idOrder,
             ),
         );
 
@@ -163,10 +97,9 @@ class BfxReportsSalesOrderTabTableConfigurationProvider
             'report-preview',
             'Preview',
             sprintf(
-                '/bfx-reports-merchant-portal-gui/bfx-reports/report-iframe?repId=${row.%s}',
-                //                'bfx-reports/report-iframe?repId=${row.%s}&merchId=${row.%s}',
+                '/bfx-reports-merchant-portal-gui/bfx-reports/report-preview-with-parameter?repId=${row.%s}&paramName=' . static::PARAM_NAME_ORDER_ID . '&paramValue=%s',
                 BladeFxReportTransfer::REP_ID,
-                //                $idMerchant,
+                $idOrder,
             ),
         )->setRowClickAction('report-preview');
 

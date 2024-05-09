@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Pyz\Zed\BfxReportsMerchantPortalGui\Communication\Controller;
 
 use Generated\Shared\Transfer\BladeFxParameterTransfer;
+use Generated\Shared\Transfer\BladeFxReportTransfer;
 use Spryker\Zed\Kernel\Communication\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,6 +52,7 @@ class BfxReportsController extends AbstractController
             $this->getFactory()->createBfxReportsMerchantPortalGuiTableConfigurationProvider()->getConfiguration(),
         );
     }
+
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
@@ -72,7 +74,7 @@ class BfxReportsController extends AbstractController
      */
     public function reportIframeAction(Request $request): Response
     {
-        $reportId = (int)$request->get('repId');
+        $reportId = (int)$request->get(BladeFxReportTransfer::REP_ID);
         $reportParamFormTransfer = $this
             ->getFactory()
             ->getReportsFacade()
@@ -92,12 +94,42 @@ class BfxReportsController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
+    public function reportPreviewWithParameterAction(Request $request): Response
+    {
+        $paramTransfer = (new BladeFxParameterTransfer())
+            ->setParamName($request->query->get(BladeFxParameterTransfer::PARAM_NAME))
+            ->setParamValue($request->query->get(BladeFxParameterTransfer::PARAM_VALUE))
+            ->setReportId((int)$request->query->get(BladeFxReportTransfer::REP_ID))
+            ->setSqlDbType('');
+
+        $reportParamFormTransfer = $this
+            ->getFactory()
+            ->getReportsFacade()
+            ->getReportPreviewURL($paramTransfer);
+
+        $responseData = [
+            'html' => $this->renderView('@BfxReportsMerchantPortalGui/Partials/report-iframe.twig', [
+                'url' => $reportParamFormTransfer->getUrl(),
+            ])->getContent(),
+        ];
+
+        return new JsonResponse($responseData);
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function reportDownloadAction(Request $request): Response
     {
-        $reportId = $this->castId($request->query->get('repId'));
+        $reportId = $this->castId($request->query->get(BladeFxReportTransfer::REP_ID));
         $format = $request->query->get('format');
 
-        $paramTransfer = (new BladeFxParameterTransfer())->setReportId($reportId)->setParamName('@order_id')->setParamValue('1')->setSqlDbType('');
+        $paramName = $request->query->get(BladeFxParameterTransfer::PARAM_NAME);
+        $paramValue = $request->query->get(BladeFxParameterTransfer::PARAM_VALUE);
+
+        $paramTransfer = (new BladeFxParameterTransfer())->setReportId($reportId)->setParamName($paramName)->setParamValue($paramValue)->setSqlDbType('');
         $responseTransfer = $this->getFactory()->getReportsFacade()->getReportByIdInWantedFormat($reportId, $format, $paramTransfer);
         $headers = $this->buildDownloadHeaders($format);
 
@@ -115,13 +147,20 @@ class BfxReportsController extends AbstractController
      */
     public function reportDownloadResponseBuilderAction(Request $request): JsonResponse
     {
-        $reportId = $this->castId($request->query->get('repId'));
+        $reportId = $this->castId($request->query->get(BladeFxReportTransfer::REP_ID));
+        $paramName = $request->query->get(BladeFxParameterTransfer::PARAM_NAME);
+        $paramValue = $request->query->get(BladeFxParameterTransfer::PARAM_VALUE);
+
+        $url = "/bfx-reports-merchant-portal-gui/bfx-reports/report-download?repId=${reportId}&format=pdf";
+        if ($paramName && $paramValue) {
+            $url .= "&paramName=${paramName}&paramValue=${paramValue}";
+        }
 
         $zedUiFormResponseTransfer = $this
             ->getFactory()
             ->getZedUiFactory()
             ->createZedUiFormResponseBuilder()
-            ->addActionRedirect("/bfx-reports-merchant-portal-gui/bfx-reports/report-download?repId=${reportId}&format=pdf")
+            ->addActionRedirect($url)
             ->createResponse();
 
         return new JsonResponse($zedUiFormResponseTransfer->toArray());
