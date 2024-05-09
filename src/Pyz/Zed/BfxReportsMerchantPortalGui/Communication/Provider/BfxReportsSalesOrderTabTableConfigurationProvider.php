@@ -15,7 +15,7 @@ use Spryker\Shared\GuiTable\Configuration\Builder\GuiTableConfigurationBuilderIn
 use Spryker\Shared\GuiTable\GuiTableFactoryInterface;
 use Spryker\Zed\MerchantUser\Business\MerchantUserFacadeInterface;
 
-class BfxReportsMerchantPortalGuiTableConfigurationProvider
+class BfxReportsSalesOrderTabTableConfigurationProvider
 {
     /**
      * @var string
@@ -88,10 +88,11 @@ class BfxReportsMerchantPortalGuiTableConfigurationProvider
         $guiTableConfigurationBuilder = $this->guiTableFactory->createConfigurationBuilder();
 
         $guiTableConfigurationBuilder = $this->addColumns($guiTableConfigurationBuilder);
+//        $guiTableConfigurationBuilder = $this->addFilters($guiTableConfigurationBuilder);
         $guiTableConfigurationBuilder = $this->addRowActions($guiTableConfigurationBuilder, $idMerchant);
 
         $guiTableConfigurationBuilder
-            ->setDataSourceUrl('/bfx-reports-merchant-portal-gui/bfx-reports/main-reports-table-data')
+            ->setDataSourceUrl('/bfx-reports-merchant-portal-gui/bfx-reports/sales-reports-table-data')
             ->setSearchPlaceholder('Search by report name')
             ->setDefaultPageSize(25);
 
@@ -147,14 +148,27 @@ class BfxReportsMerchantPortalGuiTableConfigurationProvider
         GuiTableConfigurationBuilderInterface $guiTableConfigurationBuilder,
         int $idMerchant,
     ): GuiTableConfigurationBuilderInterface {
-        $guiTableConfigurationBuilder->addRowActionDrawerUrlHtmlRenderer(
-            'report-iframe',
-            'Edit',
+        $guiTableConfigurationBuilder->addRowActionHttp(
+            'download-pdf',
+            'Download as PDF',
             sprintf(
-                'bfx-reports/report-iframe?repId=${row.%s}',
+                '/bfx-reports-merchant-portal-gui/bfx-reports/report-download-response-builder?repId=${row.%s}&format=pdf',
+                //                'bfx-reports/report-iframe?repId=${row.%s}&merchId=${row.%s}',
                 BladeFxReportTransfer::REP_ID,
+                //                $idMerchant,
             ),
-        )->setRowClickAction('report-iframe');
+        );
+
+        $guiTableConfigurationBuilder->addRowActionDrawerUrlHtmlRenderer(
+            'report-preview',
+            'Preview',
+            sprintf(
+                '/bfx-reports-merchant-portal-gui/bfx-reports/report-iframe?repId=${row.%s}',
+                //                'bfx-reports/report-iframe?repId=${row.%s}&merchId=${row.%s}',
+                BladeFxReportTransfer::REP_ID,
+                //                $idMerchant,
+            ),
+        )->setRowClickAction('report-preview');
 
         return $guiTableConfigurationBuilder;
     }

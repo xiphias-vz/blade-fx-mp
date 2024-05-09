@@ -5,14 +5,17 @@
     {{ 'Blade Fx' | trans }}
 {% endblock %}
 
+{% block headCss %}
+    <style>
+        .report-dialog {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-
-    <web-mp-bfx-reports-iframe
-        url={{ url }}
-    >
-
-
-    </web-mp-bfx-reports-iframe>
+    <iframe class="report-dialog" src={{ url }}></iframe>
 {% endblock %}
 
 
@@ -20,4 +23,3 @@
     {{ view.importJsBundle('bfx-reports-merchant-portal-gui', importConfig) }}
     {{ parent() }}
 {% endblock %}
-
