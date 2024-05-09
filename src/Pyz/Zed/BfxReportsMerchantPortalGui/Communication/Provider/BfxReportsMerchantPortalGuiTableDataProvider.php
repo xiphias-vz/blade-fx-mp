@@ -49,11 +49,10 @@ class BfxReportsMerchantPortalGuiTableDataProvider extends AbstractGuiTableDataP
         if ($criteriaTransfer->getSearchTerm()) {
             $reportList = $this->search($reportList, $criteriaTransfer->getSearchTerm());
         }
-        $paginatedReports = $this->pagination($reportList, $criteriaTransfer);
         /**
          * @var \Generated\Shared\Transfer\BladeFxReportTransfer $reportListItem
          */
-        foreach ($paginatedReports as $reportListItem) {
+        foreach ($reportList as $reportListItem) {
             $responseData = [
                 BladeFxReportTransfer::IS_FAVORITE => $reportListItem->getIsFavorite(),
                 BladeFxReportTransfer::REP_ID => $reportListItem->getRepId(),
@@ -81,21 +80,6 @@ class BfxReportsMerchantPortalGuiTableDataProvider extends AbstractGuiTableDataP
     protected function createCriteria(GuiTableDataRequestTransfer $guiTableDataRequestTransfer): AbstractTransfer
     {
         return (new BladeFxCriteriaTransfer());
-    }
-
-    /**
-     * @param array $rows
-     * @param \Spryker\Shared\Kernel\Transfer\AbstractTransfer $criteriaTransfer
-     *
-     * @return array
-     */
-    protected function pagination(array $rows, AbstractTransfer $criteriaTransfer): array
-    {
-        /** @var \Generated\Shared\Transfer\BladeFxCriteriaTransfer $criteriaTransfer */
-        $perPage = $criteriaTransfer->getPageSize();
-        $offset = ($criteriaTransfer->getPage() - 1) * $perPage;
-
-        return array_slice($rows, $offset, $perPage);
     }
 
     /**
