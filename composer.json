@@ -290,7 +290,8 @@
         "spryker/warehouses-backend-api": "^1.0.0",
         "spryker/willdurand-negotiation": "^1.0.0",
         "spryker/wishlists-rest-api": "^1.6.2",
-        "symfony/http-kernel": "^6.3.7"
+        "symfony/http-kernel": "^6.3.7",
+        "xiphias/bfx-reports": "dev-master"
     },
     "require-dev": {
         "codeception/codeception": "^5.0.8",
@@ -361,6 +362,28 @@
         {
             "type": "git",
             "url": "https://github.com/spryker/robotframework-suite-tests.git"
+        },
+        {
+            "options": {
+                "symlink": false
+            },
+            "type": "path",
+            "url": "/xiphias/bfx-reports"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/xiphias-vz/bfx-reports.git"
+        },
+        {
+            "options": {
+                "symlink": false
+            },
+            "type": "path",
+            "url": "/xiphias/s3-files-gui"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/xiphias-vz/s3-files-gui.git"
         }
     ],
     "scripts": {
