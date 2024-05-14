@@ -8,7 +8,21 @@
         <controller>index</controller>
         <action>index</action>
         <icon>fa-chart-area</icon>
-    </dashboard>
+    </dashboard><reports>
+        <label>BFX reports</label>
+        <title>BFX reports</title>
+        <icon>fa-copy</icon>
+        <pages>
+            <report-dashboard>
+                <label>Reports</label>
+                <title>Reports</title>
+                <bundle>reports</bundle>
+                <controller>index</controller>
+                <action>index</action>
+                <visible>1</visible>
+            </report-dashboard>
+        </pages>
+    </reports>
     <sales>
         <label>Sales</label>
         <uri>/sales</uri>

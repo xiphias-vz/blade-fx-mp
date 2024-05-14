@@ -125,6 +125,7 @@ use Spryker\Zed\Propel\PropelConfig;
 use SprykerShop\Shared\CustomerPage\CustomerPageConstants;
 use SprykerShop\Shared\ShopUi\ShopUiConstants;
 use Symfony\Component\HttpFoundation\Cookie;
+use Xiphias\Shared\Reports\ReportsConstants;
 
 // ############################################################################
 // ############################## PRODUCTION CONFIGURATION ####################
@@ -151,6 +152,7 @@ $config[KernelConstants::CORE_NAMESPACES] = [
     'SprykerEco',
     'Spryker',
     'SprykerSdk',
+    'Xiphias'
 ];
 
 // >>> ROUTER
@@ -857,3 +859,25 @@ $config[GlueStorefrontApiApplicationConstants::GLUE_STOREFRONT_CORS_ALLOW_ORIGIN
 $config[PushNotificationWebPushPhpConstants::VAPID_PUBLIC_KEY] = getenv('SPRYKER_PUSH_NOTIFICATION_WEB_PUSH_PHP_VAPID_PUBLIC_KEY');
 $config[PushNotificationWebPushPhpConstants::VAPID_PRIVATE_KEY] = getenv('SPRYKER_PUSH_NOTIFICATION_WEB_PUSH_PHP_VAPID_PRIVATE_KEY');
 $config[PushNotificationWebPushPhpConstants::VAPID_SUBJECT] = getenv('SPRYKER_PUSH_NOTIFICATION_WEB_PUSH_PHP_VAPID_SUBJECT');
+
+// ----------------------------------------------------------------------------
+// ------------------------------ Blade-FX-package ----------------------------
+// ----------------------------------------------------------------------------
+$config[ReportsConstants::BLADE_FX_REPORTS_HOST] = 'http://api.alabama.blade-fx.com';
+$config[ReportsConstants::BLADE_FX_X_THIS_HOST] = "http://x-this.com/";
+$config[ReportsConstants::BLADE_FX_ROOT_URL] = "https://alabama.blade-fx.com";
+
+$config[ReportsConstants::BLADE_FX_SERVICE] = [
+    ReportsConstants::BLADE_FX_DEFAULT_USER_NAME => 'spryker.admin',
+    ReportsConstants::BLADE_FX_DEFAULT_PASSWORD => 'change123',
+    ReportsConstants::BLADE_FX_WEB_SERVICE_FILE => $config[ReportsConstants::BLADE_FX_REPORTS_HOST] . '/Servisi/WebData.asmx',
+    ReportsConstants::BLADE_FX_USER_INFO => $config[ReportsConstants::BLADE_FX_X_THIS_HOST] . 'GetUserInfo',
+    ReportsConstants::BLADE_FX_REPORT_LIST => $config[ReportsConstants::BLADE_FX_X_THIS_HOST] . 'GetReportListNAtt',
+    ReportsConstants::BLADE_FX_URL_PRINT_OUT_FILE => '/out/Printout.aspx',
+    ReportsConstants::BLADE_FX_URL_MOBILE_FILE => '/out/Mobile.aspx'
+];
+
+$config[ReportsConstants::EXTERNAL_API_HTTP_CLIENT_PARAMS] = [
+    'verify' => false,
+    'connect_timeout' => getenv('SPRYKER_EXTERNAL_API_HTTP_REQUEST_TIMEOUT') ?: 15,
+];

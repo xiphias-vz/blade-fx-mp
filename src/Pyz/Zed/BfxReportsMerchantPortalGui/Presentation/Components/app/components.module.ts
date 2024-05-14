@@ -5,8 +5,10 @@ import { WebComponentsModule } from '@spryker/web-components';
 import { CardModule, CardComponent } from '@spryker/card';
 import { DateRangePickerModule, DateRangePickerComponent } from '@spryker/date-picker';
 
-import { BfxReportsComponent } from "./bfxReports/bfxReports.component";
-import { BfxReportsModule } from "./bfxReports/bfxReports.module";
+import { BfxReportsComponent } from './bfx-reports/bfx-reports.component';
+import { BfxReportsIframeComponent} from './bfx-reports-iframe/bfx-reports-iframe.component'
+import { BfxReportsModule } from './bfx-reports/bfx-reports.module';
+import { BfxReportsIframeModule } from './bfx-reports-iframe/bfx-reports-iframe.module'
 
 @NgModule({
     imports: [
@@ -15,13 +17,15 @@ import { BfxReportsModule } from "./bfxReports/bfxReports.module";
             ChipsComponent,
             CardComponent,
             DateRangePickerComponent,
-            BfxReportsComponent
+            BfxReportsComponent,
+            BfxReportsIframeComponent
         ]),
         ButtonLinkModule,
         ChipsModule,
         CardModule,
         DateRangePickerModule,
         BfxReportsModule,
+        BfxReportsIframeModule
     ],
     providers: [],
 })

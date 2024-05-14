@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5df24547b73cb365f303cb26a8d05f48",
+    "content-hash": "f67284c7bca7221c2c04771932355b25",
     "packages": [
         {
             "name": "async-aws/core",
@@ -65824,6 +65824,65 @@
                 "source": "https://github.com/willdurand/Negotiation/tree/3.1.0"
             },
             "time": "2022-01-30T20:08:53+00:00"
+        },
+        {
+            "name": "xiphias/bfx-reports",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "/xiphias/bfx-reports",
+                "reference": "f09a56e3ecd5a833c64fd1f755c8defe30428db7"
+            },
+            "require": {
+                "php": ">=8.0",
+                "spryker/acl": "^3.13.0",
+                "spryker/kernel": "^3.7.0",
+                "spryker/session": "*",
+                "spryker/translator": "^1.9.1"
+            },
+            "require-dev": {
+                "spryker/code-sniffer": "*",
+                "spryker/container": "*",
+                "spryker/testify": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Xiphias\\": "src/Xiphias"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "XiphiasTests\\": "tests/XiphiasTests/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Filip Gojković",
+                    "email": "filip.gojkovic@xiphias.hr"
+                },
+                {
+                    "name": "Domagoj Križanec",
+                    "email": "domagoj.krizanec@xiphias.hr"
+                },
+                {
+                    "name": "Nino Hasl",
+                    "email": "nino.hasl@xiphias.hr"
+                },
+                {
+                    "name": "Javor Novosel",
+                    "email": "javor.novosel@xiphias.hr"
+                },
+                {
+                    "name": "Alen Valek",
+                    "email": "alen.valek@xiphias.hr"
+                }
+            ],
+            "description": "This is the template for developing and testing creation of composer packages",
+            "transport-options": {
+                "symlink": false,
+                "relative": false
+            }
         }
     ],
     "packages-dev": [
